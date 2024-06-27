@@ -2,7 +2,7 @@ import React from "react";
 import "./ExploreMenu.css";
 import { menu_list } from "../../assets/assets";
 
-const ExploreMenu = () => {
+const ExploreMenu = ({ category, setCategory }) => {
   return (
     <div className="explore-menu" id="explore-menu">
       <h1>Explore our Delicacies</h1>
@@ -13,16 +13,26 @@ const ExploreMenu = () => {
         own home.
       </p>
       <div className="explore-menu-list">
-        {
-            menu_list.map((item, index) => {
-                return(
-                    <div key={index} className="exlore-menu-list-item">
-                        <img src={item.menu_image} alt="" />
-                        <p className="item-name">{item.menu_name}</p>
-                    </div>
+        {menu_list.map((item, index) => {
+          return (
+            <div
+              onClick={() =>
+                setCategory(prev=>prev === item.menu_name ? "All" : item.menu_name
                 )
-            })
-        }
+              }
+              key={index}
+              className="exlore-menu-list-item"
+            >
+              <img
+                className={category === item.menu_name ? "active1" : ""}
+                src={item.menu_image}
+                alt=""
+              />{" "}
+              {/* Using dynamic classname */}
+              <p className="item-name">{item.menu_name}</p>
+            </div>
+          );
+        })}
       </div>
       <hr />
     </div>
