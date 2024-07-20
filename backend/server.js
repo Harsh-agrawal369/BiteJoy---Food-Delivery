@@ -1,8 +1,10 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
 import express from "express"
 import cors from "cors"
 import foodRouter from './Routes/FoodRoute.js'
+
+import prisma from './prisma/index.js';
 
 
 // App config
