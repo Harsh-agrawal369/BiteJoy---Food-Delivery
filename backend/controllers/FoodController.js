@@ -1,4 +1,4 @@
-import {prisma} from "../prisma/index.js"
+import prisma from "../prisma/index.js"
 import fs from "fs";
 
 // Add Food Item
