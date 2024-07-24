@@ -13,7 +13,7 @@ const storgae = multer.diskStorage({
   },
 });
 
-const upload = multer({storgae:storgae})
+const upload = multer({storage:storgae})
 
 
 foodRouter.post("/add", upload.single("image"), addFood);
