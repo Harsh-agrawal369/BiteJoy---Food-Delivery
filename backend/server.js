@@ -24,6 +24,7 @@ app.get("/" , (req, res) => {
 
 // API Endpoints
 app.use("/api/food", foodRouter)
+app.use("/images", express.static("uploads"))
 
 
 

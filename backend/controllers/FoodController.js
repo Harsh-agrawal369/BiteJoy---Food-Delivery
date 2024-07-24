@@ -28,4 +28,47 @@ const addFood = async (req, res) => {
   }
 };
 
-export { addFood };
+
+// All food list
+
+const listFood = async (req, res) => {
+  try {
+    const foods = await prisma.foodModel.findMany();
+    res.json({ success: true, data: foods });
+  } catch (err) { 
+    console.log(err);
+    res.json({ success: false, mess: "Internal Server Error" });
+  }
+}
+
+
+// Remove Food item
+
+const removeFood = async (req, res) => {  
+  try {
+    const food = await prisma.foodModel.findUnique({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    fs.unlink(`uploads/${food.image}`, async (err) => {});
+
+    await prisma.foodModel.delete({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.json({ success: true, mess: "Food Deleted" });
+    
+  }
+  catch (err) {
+    console.log(err);
+    res.json({ success: false, mess: "Internal Server Error" });
+  }
+
+}
+
+
+export { addFood, listFood, removeFood };
