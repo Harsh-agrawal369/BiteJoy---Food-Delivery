@@ -3,6 +3,7 @@ import 'dotenv/config';
 import express from "express"
 import cors from "cors"
 import foodRouter from './Routes/FoodRoute.js'
+import userRouter from './Routes/UserRoute.js'
 
 import prisma from './prisma/index.js';
 
@@ -25,7 +26,7 @@ app.get("/" , (req, res) => {
 // API Endpoints
 app.use("/api/food", foodRouter)
 app.use("/images", express.static("uploads"))
-
+app.use("/api/user", userRouter)
 
 
 
