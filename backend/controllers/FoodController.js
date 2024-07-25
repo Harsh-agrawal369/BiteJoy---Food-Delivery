@@ -18,13 +18,13 @@ const addFood = async (req, res) => {
     });
 
     if (food) {
-      res.json({ success: true, mess: "Food Added" });
+      res.json({ success: true, message: "Food Added" });
     } else {
-      res.json({ success: false, mess: "Internal Server Error" });
+      res.json({ success: false, message: "Internal Server Error" });
     }
   } catch (err) {
     console.log(err);
-    res.json({ success: false, mess: "Internal Server Error" });
+    res.json({ success: false, message: "Internal Server Error" });
   }
 };
 
