@@ -9,6 +9,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
+
+  const API_URL = 'http://localhost:4000';
+
   return (
     <div>
       <Navbar/>
@@ -17,9 +20,9 @@ const App = () => {
         <Sidebar/>
         <ToastContainer />
         <Routes>
-          <Route path="/add" element={<Add />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/add" element={<Add API_URL={API_URL}/>} />
+          <Route path="/list" element={<List API_URL={API_URL}/>} />
+          <Route path="/orders" element={<Orders API_URL={API_URL}/>} />
         </Routes>
       </div>
 

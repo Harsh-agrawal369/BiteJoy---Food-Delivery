@@ -4,11 +4,9 @@ import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const List = () => {
+const List = ({API_URL}) => {
 
   const [list, setList] = useState([]);
-
-  const API_URL = 'http://localhost:4000';
 
   const fetchList = async () => {
     const response = await axios.get(`${API_URL}/api/food/list`);

@@ -5,8 +5,8 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Add = () => {
-  const API_URL = 'http://localhost:4000';
+const Add = ({API_URL}) => {
+  
 
   const [image, setImage] = useState(null);
 
