@@ -37,7 +37,7 @@ const listFood = async (req, res) => {
     res.json({ success: true, data: foods });
   } catch (err) { 
     console.log(err);
-    res.json({ success: false, mess: "Internal Server Error" });
+    res.json({ success: false, message: "Internal Server Error" });
   }
 }
 
@@ -60,12 +60,12 @@ const removeFood = async (req, res) => {
       },
     });
 
-    res.json({ success: true, mess: "Food Deleted" });
+    res.json({ success: true, message: "Food Removed" });
     
   }
   catch (err) {
     console.log(err);
-    res.json({ success: false, mess: "Internal Server Error" });
+    res.json({ success: false, message: "Internal Server Error" });
   }
 
 }
