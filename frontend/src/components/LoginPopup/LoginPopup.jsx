@@ -14,14 +14,40 @@ const LoginPopup = ({ setShowLogin }) => {
         </div>
         <div className="login-popup-input">
           {loginState === "Sign Up" ? (
-            <input type="text" placeholder="Enter Your Name" required />
+            <input
+              name="name"
+              type="text"
+              placeholder="Enter Your Name"
+              required
+            />
           ) : (
             <></>
           )}
-          <input type="email" placeholder="Enter Your Email" required />
-          <input type="password" placeholder="Enter Password" required />
+          <input
+            name="email"
+            type="email"
+            placeholder="Enter Your Email"
+            required
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Enter Password"
+            required
+          />
           {loginState === "Sign Up" ? (
-            <input type="password" placeholder="Confirm Password" required />
+            <>
+              <input
+                name="confirmPass"
+                type="password"
+                placeholder="Confirm Password"
+                required
+              />
+              <p>
+                Password must contain 1 Uppercase character, 1 special
+                character, 1 digit with a minimum length of 8
+              </p>
+            </>
           ) : (
             <></>
           )}
@@ -32,10 +58,15 @@ const LoginPopup = ({ setShowLogin }) => {
           <p>By continuing, I agree to the terms of use and Policies</p>
         </div>
         {loginState === "Sign Up" ? (
-          <p>Already have an Account. <span onClick={() => setLoginState("Login")}>Login Here</span></p>
+          <p>
+            Already have an Account.{" "}
+            <span onClick={() => setLoginState("Login")}>Login Here</span>
+          </p>
         ) : (
-          <p>Create a new Account? <span onClick={() => setLoginState("Sign Up")}>Click Here</span></p>
-          
+          <p>
+            Create a new Account?{" "}
+            <span onClick={() => setLoginState("Sign Up")}>Click Here</span>
+          </p>
         )}
       </form>
     </div>

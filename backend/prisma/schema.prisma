@@ -26,6 +26,7 @@ model UserModel {
   cart     Cart[]
 }
 
+
 model Cart {
   id        String      @id @default(auto()) @map("_id") @db.ObjectId
   user      UserModel   @relation(fields: [userId], references: [id])
