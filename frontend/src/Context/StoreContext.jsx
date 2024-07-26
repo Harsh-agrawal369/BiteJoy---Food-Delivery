@@ -7,6 +7,10 @@ const StoreContextProvider = (props) => {
   //We are using this as context because if we use a state in FoodItems it will create the state for each object individually
   const [cartItems, setCartItems] = useState({});
 
+  const [token, setToken] = useState("");
+
+  const [name, setName] = useState("");
+
   const addToCart = (itemId) => {
     // If there is not product of this type in cart, we add it to out list
     if (!cartItems[itemId]) {
@@ -33,6 +37,15 @@ const StoreContextProvider = (props) => {
     return totalAmount;
   };
 
+  useEffect(()=>{
+    if(localStorage.getItem("token")){
+      setName(localStorage.getItem("name"));
+      setToken(localStorage.getItem("token"));
+    }
+  })
+
+  const API_URL = "http://localhost:4000";
+
   useEffect(() => {
     console.log(cartItems);
   }, [cartItems]);
@@ -44,6 +57,11 @@ const StoreContextProvider = (props) => {
     addToCart,
     removeFromCart,
     getTotalCartAmount,
+    API_URL,
+    token,
+    setToken,
+    name,
+    setName,
   };
   return (
     <StoreContext.Provider value={contextValue}>

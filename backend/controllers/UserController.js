@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
 
         // Create token using jwt
         const token = createToken(user.id);
-        res.json({ success: true, token: token });
+        res.json({ success: true, token: token, name: user.name });
 
     }
     catch (error) {
@@ -104,7 +104,7 @@ const registerUser = async (req, res) => {
 
         // Create token using jwt
         const token = createToken(newUser.id);
-        res.json({ success: true, token: token });
+        res.json({ success: true, token: token, name : newUser.name });
     } catch (error) {
         console.error("Error:", error); // Improved error logging
         res.json({ success: false, message: "Internal Server Error" });
