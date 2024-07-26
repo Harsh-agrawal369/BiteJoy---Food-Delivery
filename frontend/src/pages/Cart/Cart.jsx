@@ -5,7 +5,7 @@ import { assets } from "../../assets/assets";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cartItems, food_list, addToCart, removeFromCart, getTotalCartAmount } = useContext(StoreContext);
+  const { cartItems, food_list, addToCart, removeFromCart, getTotalCartAmount, API_URL } = useContext(StoreContext);
 
   const navigate = useNavigate();
 
@@ -24,29 +24,29 @@ const Cart = () => {
         <hr />
 
         {food_list.map((item) => {
-          if (cartItems[item._id] > 0) {
+          if (cartItems[item.id] > 0) {
             return (
-              <React.Fragment key={item._id}>
+              <React.Fragment key={item.id}>
                 <div className="cart-items-title cart-items-item">
-                  <img src={item.image} alt={item.name} />
+                  <img src={API_URL + "/images/" + item.image} alt={item.name} />
                   <p>{item.name}</p>
                   <p>${item.price}</p>
-                  <p>{cartItems[item._id]}</p>
-                  <p>${item.price * cartItems[item._id]}</p>
+                  <p>{cartItems[item.id]}</p>
+                  <p>${item.price * cartItems[item.id]}</p>
                   <div className="food-item-counter">
                     <img
-                      onClick={() => removeFromCart(item._id)}
+                      onClick={() => removeFromCart(item.id)}
                       src={assets.remove_icon_red}
                       alt="Remove"
                     />
-                    <p>{cartItems[item._id]}</p>
+                    <p>{cartItems[item.id]}</p>
                     <img
-                      onClick={() => addToCart(item._id)}
+                      onClick={() => addToCart(item.id)}
                       src={assets.add_icon_green}
                       alt="Add"
                     />
                   </div>
-                  <p  onClick={() => removeFromCart(item._id)} className="cross">x</p>
+                  <p  onClick={() => removeFromCart(item.id)} className="cross">x</p>
                 </div>
                 <hr />
               </React.Fragment>

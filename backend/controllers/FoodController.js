@@ -34,12 +34,18 @@ const addFood = async (req, res) => {
 const listFood = async (req, res) => {
   try {
     const foods = await prisma.foodModel.findMany();
-    res.json({ success: true, data: foods });
-  } catch (err) { 
-    console.log(err);
+
+    const sortedFoodList = foods.sort((a, b) =>
+      a.category.localeCompare(b.category)
+    );
+
+    res.json({ success: true, data: sortedFoodList });
+  } catch (err) {
+    console.log("Error fetching food list:", err);
     res.json({ success: false, message: "Internal Server Error" });
   }
-}
+};
+
 
 
 // Remove Food item

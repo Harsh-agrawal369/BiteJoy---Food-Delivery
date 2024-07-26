@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model FoodModel {
+model foodModel {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   name        String     @unique
   description String?
@@ -36,7 +36,7 @@ model Cart {
 
 model CartItem {
   id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  food     FoodModel  @relation(fields: [foodId], references: [id])
+  food     foodModel  @relation(fields: [foodId], references: [id])
   foodId   String     @db.ObjectId
   cart     Cart       @relation(fields: [cartId], references: [id])
   cartId   String     @db.ObjectId
