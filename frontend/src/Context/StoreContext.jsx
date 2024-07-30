@@ -11,25 +11,43 @@ const StoreContextProvider = (props) => {
   const [name, setName] = useState("");
   const [food_list, setFoodList] = useState([]);
 
-  const addToCart = (itemId) => {
-    if (itemId) {  // Check if itemId is valid
-      setCartItems((prev) => {
-        const updatedCart = { ...prev };
-        if (!updatedCart[itemId]) {
-          updatedCart[itemId] = 1;
-        } else {
-          updatedCart[itemId] += 1;
+  const addToCart = async (itemId) => {
+    try {
+      if (itemId) {
+        setCartItems((prev) => {
+          const updatedCart = { ...prev };
+          if (!updatedCart[itemId]) {
+            updatedCart[itemId] = 1;
+          } else {
+            updatedCart[itemId] += 1;
+          }
+          console.log("Cart Items after add:", updatedCart);
+          return updatedCart;
+        });
+
+        if (token) {
+          const response = await axios.post(
+            `${API_URL}/api/cart/add`,
+            { userId: name, ItemId: itemId },
+            {
+              headers: {
+                token,
+              },
+            }
+          );
+
+          console.log("API Response:", response.data);
         }
-        console.log("Cart Items after add:", updatedCart);
-        return updatedCart;
-      });
-    } else {
-      console.error("addToCart called with undefined itemId");
+      } else {
+        console.error("addToCart called with undefined itemId");
+      }
+    } catch (error) {
+      console.error("Error in addToCart:", error);
     }
   };
 
-  const removeFromCart = (itemId) => {
-    if (itemId) {  // Check if itemId is valid
+  const removeFromCart = async (itemId) => {
+    if (itemId) {
       setCartItems((prev) => {
         const updatedCart = { ...prev };
         if (updatedCart[itemId] > 1) {
@@ -39,6 +57,20 @@ const StoreContextProvider = (props) => {
         }
         return updatedCart;
       });
+
+      if (token) {
+        const response = await axios.post(
+          `${API_URL}/api/cart/remove`,
+          { userId: name, ItemId: itemId },
+          {
+            headers: {
+              token,
+            },
+          }
+        );
+
+        console.log("API Response:", response.data);
+      }
     } else {
       console.error("removeFromCart called with undefined itemId");
     }
@@ -59,6 +91,33 @@ const StoreContextProvider = (props) => {
     return totalAmount;
   };
 
+  const loadCartData = async (token) => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/api/cart/get`,
+        { userId: name },
+        {
+          headers: {
+            token,
+          },
+        }
+      );
+  
+      if (response.data.success) {
+        const items = response.data.cart.reduce((acc, item) => {
+          acc[item.foodId] = item.quantity;
+          return acc;
+        }, {});
+        setCartItems(items);
+      } else {
+        console.error("Failed to load cart data:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+  }
+  
+
   const fetchFoodList = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/food/list`);
@@ -76,6 +135,7 @@ const StoreContextProvider = (props) => {
       if (localStorage.getItem("token")) {
         setName(localStorage.getItem("name"));
         setToken(localStorage.getItem("token"));
+        loadCartData(localStorage.getItem("token"));
       }
     }
     loadData();
