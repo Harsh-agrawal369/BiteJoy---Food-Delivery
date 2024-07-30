@@ -4,6 +4,7 @@ import express from "express"
 import cors from "cors"
 import foodRouter from './Routes/FoodRoute.js'
 import userRouter from './Routes/UserRoute.js'
+import cartRouter from './Routes/CartRoute.js';
 
 import prisma from './prisma/index.js';
 
@@ -27,6 +28,7 @@ app.get("/" , (req, res) => {
 app.use("/api/food", foodRouter)
 app.use("/images", express.static("uploads"))
 app.use("/api/user", userRouter)
+app.use("/api/cart", cartRouter)
 
 
 
