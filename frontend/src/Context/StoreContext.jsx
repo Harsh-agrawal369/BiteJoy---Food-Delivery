@@ -157,6 +157,7 @@ const StoreContextProvider = (props) => {
     setToken,
     name,
     setName,
+    loadCartData
   };
 
   return (

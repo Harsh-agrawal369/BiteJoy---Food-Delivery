@@ -10,7 +10,7 @@ const LoginPopup = ({ setShowLogin }) => {
   const [error, setError] = useState("");
 
   const { API_URL } = useContext(StoreContext);
-  const { token, setToken , name, setName } = useContext(StoreContext);
+  const { token, setToken , name, setName, loadCartData } = useContext(StoreContext);
 
   const [data, setData] = useState({
     name: "",
@@ -44,6 +44,7 @@ const LoginPopup = ({ setShowLogin }) => {
         setToken(response.data.token);
         setName(response.data.name);
         setShowLogin(false);
+        loadCartData(localStorage.getItem("token"));
       } else {
         setError(response.data.message);
       }
