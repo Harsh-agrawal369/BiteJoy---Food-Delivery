@@ -142,6 +142,9 @@ const StoreContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
+    if(!token){
+      setName("");
+    }
     console.log(cartItems);
   }, [cartItems]);
 

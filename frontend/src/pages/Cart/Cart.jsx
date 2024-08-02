@@ -5,7 +5,14 @@ import { assets } from "../../assets/assets";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cartItems, food_list, addToCart, removeFromCart, getTotalCartAmount, API_URL } = useContext(StoreContext);
+  const {
+    cartItems,
+    food_list,
+    addToCart,
+    removeFromCart,
+    getTotalCartAmount,
+    API_URL,
+  } = useContext(StoreContext);
 
   const navigate = useNavigate();
 
@@ -28,7 +35,10 @@ const Cart = () => {
             return (
               <React.Fragment key={item.id}>
                 <div className="cart-items-title cart-items-item">
-                  <img src={API_URL + "/images/" + item.image} alt={item.name} />
+                  <img
+                    src={API_URL + "/images/" + item.image}
+                    alt={item.name}
+                  />
                   <p>{item.name}</p>
                   <p>${item.price}</p>
                   <p>{cartItems[item.id]}</p>
@@ -46,7 +56,9 @@ const Cart = () => {
                       alt="Add"
                     />
                   </div>
-                  <p  onClick={() => removeFromCart(item.id)} className="cross">x</p>
+                  <p onClick={() => removeFromCart(item.id)} className="cross">
+                    x
+                  </p>
                 </div>
                 <hr />
               </React.Fragment>
@@ -72,11 +84,17 @@ const Cart = () => {
 
             <div className="cart-total-details">
               <p>Total Amount</p>
-              <p>${getTotalCartAmount() ?  getTotalCartAmount() + 2.5 : 0}</p>
+              <p>${getTotalCartAmount() ? getTotalCartAmount() + 2.5 : 0}</p>
             </div>
           </div>
 
-          <button onClick={() => navigate('/placeorder')} >PROCEED TO CHECKOUT</button>
+          {getTotalCartAmount() ? (
+            <button onClick={() => navigate("/placeorder")}>
+              PROCEED TO CHECKOUT
+            </button>
+          ) : (
+            <button>PROCEED TO CHECKOUT</button>
+          )}
         </div>
 
         <div className="cart-promocode">

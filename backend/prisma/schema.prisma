@@ -24,7 +24,7 @@ model UserModel {
   password String
   role     String     @default("user")
   cart     Cart[]
-  orders   Order[]
+  orders    Order[]
 }
 
 model Cart {
@@ -38,8 +38,8 @@ model CartItem {
   id       String     @id @default(auto()) @map("_id") @db.ObjectId
   food     foodModel  @relation(fields: [foodId], references: [id])
   foodId   String     @db.ObjectId
-  cart     Cart       @relation(fields: [cartId], references: [id])
-  cartId   String     @db.ObjectId
+  cart     Cart?      @relation(fields: [cartId], references: [id])
+  cartId   String?     @db.ObjectId
   quantity Int
   orderId  String?    @db.ObjectId
   order    Order?     @relation(fields: [orderId], references: [id])
@@ -54,4 +54,24 @@ model Order {
   status        String      @default("Order Processing")
   createdAt     DateTime    @default(now())
   paymentStatus Boolean     @default(false)
+  address       Address     @relation(fields: [addressId], references: [id])
+  addressId     String      @db.ObjectId @unique
 }
+
+model Address {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  firstName     String
+  lastName      String
+  email         String
+  street        String
+  city          String
+  state          String
+  pinCode       String
+  country       String
+  contactNumber String
+  order         Order?      @relation
+}
+
+
+
+
