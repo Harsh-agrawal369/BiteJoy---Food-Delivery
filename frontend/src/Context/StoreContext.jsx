@@ -135,7 +135,6 @@ const StoreContextProvider = (props) => {
       if (localStorage.getItem("token")) {
         setName(localStorage.getItem("name"));
         setToken(localStorage.getItem("token"));
-        loadCartData(localStorage.getItem("token"));
       }
     }
     loadData();
