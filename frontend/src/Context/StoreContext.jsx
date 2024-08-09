@@ -127,6 +127,7 @@ const StoreContextProvider = (props) => {
       console.error("Error fetching food list:", error);
     }
   };
+  
 
   useEffect(() => {
     async function loadData() {
@@ -144,7 +145,7 @@ const StoreContextProvider = (props) => {
     if(!token){
       setName("");
     }
-    console.log(cartItems);
+    // console.log(cartItems);
   }, [cartItems]);
 
   const contextValue = {

@@ -143,4 +143,35 @@ const verifyOrder = async (req, res) => {
   }
 };
 
-export { placeOrder, verifyOrder };
+
+// User's Orders for frontEnd
+
+const userOrders = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    const orders = await prisma.Order.findMany({
+      where: { userId },
+      include: {
+        items: {
+          include: {
+            food: true,
+          },
+        },
+        address: true,
+      },
+    });
+
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ success: false, message: "No orders found for this user" });
+    }
+
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.error("Error in userOrders:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+export { placeOrder, verifyOrder, userOrders };
