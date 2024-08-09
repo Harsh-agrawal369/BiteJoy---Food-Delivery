@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./PlaceOrder.css";
 import { StoreContext } from "../../Context/StoreContext";
 import axios from "axios";
+import {toast, ToastContainer} from 'react-toastify';
 
 const PlaceOrder = () => {
   const { getTotalCartAmount, API_URL, token, food_list, cartItems } =
@@ -55,9 +56,11 @@ const PlaceOrder = () => {
         if (response.data.success) {
             const { session_url } = response.data;
             window.location.replace(session_url);
-            alert("Order placed successfully");
+            // alert("Order placed successfully");
         } else {
-            alert("Order failed");
+          const { session_url } = response.data;
+          window.location.replace(session_url);
+          toast.error("Could not place order. Internal server error.");
         }
     } catch (error) {
         console.error("Error placing order:", error);

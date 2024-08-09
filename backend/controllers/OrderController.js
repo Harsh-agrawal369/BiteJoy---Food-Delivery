@@ -90,16 +90,14 @@ const placeOrder = async (req, res) => {
     });
 
     //   console.log("Stripe session created:", session);
-    console.log(session.url);
+    // console.log(session.url);
 
-    res
-      .status(201)
-      .json({
-        message: "Order placed successfully",
-        success: true,
-        session_url: session.url,
-        order: newOrder,
-      });
+    res.status(201).json({
+      message: "Order placed successfully",
+      success: true,
+      session_url: session.url,
+      order: newOrder,
+    });
   } catch (error) {
     console.error("Error in placeOrder:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -110,7 +108,7 @@ const verifyOrder = async (req, res) => {
   try {
     const { orderId, success } = req.query;
 
-    console.log("Order verification data:", orderId, success);
+    // console.log("Order verification data:", orderId, success);
 
     if (!orderId) {
       return res
@@ -122,14 +120,22 @@ const verifyOrder = async (req, res) => {
     if (success == "true") {
       await prisma.Order.update({
         where: { id: orderId },
-        data: { status: "Order Verified" }, // Ensure status is a string if defined as such
+        data: { status: "Order Verified", paymentStatus: true }, // Ensure status is a string if defined as such
       });
       res.json({ success: true, message: "Order verified successfully" });
     } else {
-      await prisma.Order.delete({
+      const orderToDelete = await prisma.Order.findUnique({
         where: { id: orderId },
       });
-      res.json({ success: false, message: "Order Payment failed" });
+
+      if (orderToDelete) {
+        await prisma.Order.delete({
+          where: { id: orderId },
+        });
+        res.json({ success: false, message: "Order Payment failed and order deleted" });
+      } else {
+        res.json({ success: false, message: "Order not found, nothing to delete" });
+      }
     }
   } catch (error) {
     console.error("Error in verifyOrder:", error);
