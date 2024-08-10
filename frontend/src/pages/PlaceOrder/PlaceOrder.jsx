@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";  // Ensure useNavigate is correctly imported
 import "./PlaceOrder.css";
 import { StoreContext } from "../../Context/StoreContext";
 import axios from "axios";
-import {toast, ToastContainer} from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const PlaceOrder = () => {
   const { getTotalCartAmount, API_URL, token, food_list, cartItems } =
     useContext(StoreContext);
+
+  const navigate = useNavigate();
 
   const [data, setData] = useState({
     firstName: "",
@@ -21,53 +24,48 @@ const PlaceOrder = () => {
   });
 
   const onChangeHandler = (e) => {
-    setData((data) => ({ ...data, [e.target.name]: e.target.value }));
+    setData((prevData) => ({ ...prevData, [e.target.name]: e.target.value }));
   };
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    if (!token || getTotalCartAmount() === 0) {
+      navigate('/cart');
+    }
+  }, [token, getTotalCartAmount()]); // Added getTotalCartAmount() to dependency array
 
   const placeOrder = async (e) => {
     e.preventDefault();
 
-    let orderItems = [];
-
-    food_list.forEach((item) => {
-        if (cartItems[item.id] > 0) {
-            let orderInfo = { ...item, quantity: cartItems[item.id] };
-            orderItems.push(orderInfo);
-        }
-    });
+    let orderItems = food_list
+      .filter(item => cartItems[item.id] > 0)
+      .map(item => ({
+        ...item,
+        quantity: cartItems[item.id]
+      }));
 
     let orderData = {
-        token: token, // Include the token in the orderData
-        items: orderItems,
-        totalAmount: getTotalCartAmount() + 2.5,
-        address: data, // Use "address" instead of "deliveryInfo"
+      items: orderItems,
+      totalAmount: getTotalCartAmount() + 2.5,
+      address: data,
     };
 
     try {
-        console.log("Order data being sent:", orderData);
-        let response = await axios.post(`${API_URL}/api/order/place`, orderData, {
-            headers: { token: token },
-        });
+      console.log("Order data being sent:", orderData);
+      const response = await axios.post(`${API_URL}/api/order/place`, orderData, {
+        headers: { token },
+      });
 
-        if (response.data.success) {
-            const { session_url } = response.data;
-            window.location.replace(session_url);
-            // alert("Order placed successfully");
-        } else {
-          const { session_url } = response.data;
-          window.location.replace(session_url);
-          toast.error("Could not place order. Internal server error.");
-        }
+      if (response.data.success) {
+        const { session_url } = response.data;
+        window.location.replace(session_url);
+      } else {
+        toast.error("Could not place order. Internal server error.");
+      }
     } catch (error) {
-        console.error("Error placing order:", error);
-        alert("Order failed");
+      console.error("Error placing order:", error);
+      toast.error("Order failed");
     }
-};
-
+  };
 
   return (
     <form onSubmit={placeOrder} className="place-order">
@@ -178,6 +176,8 @@ const PlaceOrder = () => {
           <button type="submit">PROCEED TO PAYMENT</button>
         </div>
       </div>
+
+      <ToastContainer /> {/* Toast container for notifications */}
     </form>
   );
 };
