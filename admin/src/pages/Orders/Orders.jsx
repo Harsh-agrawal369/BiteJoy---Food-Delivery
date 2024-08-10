@@ -24,6 +24,26 @@ const Orders = ({ API_URL }) => {
     }
   };
 
+  const statusHandler = async (event, orderId) => {
+    try {
+      const response = await axios.post(`${API_URL}/api/order/updateStatus`, {
+        orderId: orderId,
+        status: event.target.value,
+      });
+
+      if (!response.data.success) {
+        toast.error("Error updating status");
+        return;
+      } else {
+        toast.success("Status updated successfully");
+        fetchOrders();
+      }
+    } catch {
+      toast.error("Error updating status");
+      console.error("Error updating status:", error);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -50,27 +70,23 @@ const Orders = ({ API_URL }) => {
               </p>
 
               <div className="order-item-address">
-                <p>{order.address.street+","}</p> 
+                <p>{order.address.street + ","}</p>
                 <p>
-                {order.address.city},{" "}{order.address.state},{" "}{order.address.country}{" "}
-                {"-"+order.address.pinCode}
-                  
-                </p> 
+                  {order.address.city}, {order.address.state},{" "}
+                  {order.address.country} {"-" + order.address.pinCode}
+                </p>
               </div>
 
-              <p className="order-item-phone">
-                {order.address.contactNumber}
-              </p>
+              <p className="order-item-phone">{order.address.contactNumber}</p>
             </div>
-            <p className="NoOfItems">
-              Items: {order.items.length}
-            </p>
+            <p className="NoOfItems">Items: {order.items.length}</p>
 
-            <p>
-              Total Amount: ${order.totalAmount}.00
-            </p>
+            <p>Total Amount: ${order.totalAmount}.00</p>
 
-            <select>
+            <select
+              onChange={(event) => statusHandler(event, order.id)}
+              value={order.status}
+            >
               <option value="Food Processing">Food Processing</option>
               <option value="Out for Delivery">Out for Delivery</option>
               <option value="Order Delivered">Order Delivered</option>
