@@ -200,11 +200,32 @@ const listOrders = async (req, res) => {
     console.error("Error in listOrders:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
+}
 
+// Update order status
+
+const UpdateStatus = async (req, res) => {
+
+  try{
+    
+    const { orderId, status } = req.body;
+
+    await prisma.Order.update({
+      where: { id: orderId },
+      data: { status: status },
+    });
+
+    res.json({ success: true, message: "Order status updated successfully"});
+
+
+  } catch (error){
+    console.error("Error in UpdateStatus:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 
 
 }
 
 
 
-export { placeOrder, verifyOrder, userOrders, listOrders };
+export { placeOrder, verifyOrder, userOrders, listOrders, UpdateStatus };
