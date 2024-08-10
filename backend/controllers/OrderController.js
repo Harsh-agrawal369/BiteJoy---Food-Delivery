@@ -120,7 +120,7 @@ const verifyOrder = async (req, res) => {
     if (success == "true") {
       await prisma.Order.update({
         where: { id: orderId },
-        data: { status: "Order Verified", paymentStatus: true }, // Ensure status is a string if defined as such
+        data: { paymentStatus: true }, // Ensure status is a string if defined as such
       });
       res.json({ success: true, message: "Order verified successfully" });
     } else {
