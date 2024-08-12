@@ -18,7 +18,7 @@ const List = ({ API_URL }) => {
   };
 
   const toggleAvailability = async (foodId, makeAvailable) => {
-    const response = await axios.post(`${API_URL}/api/food/update`, {
+    const response = await axios.post(`${API_URL}/api/food/remove`, {
       id: foodId,
       display: makeAvailable,
     });
