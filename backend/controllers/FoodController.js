@@ -53,7 +53,7 @@ const listFood = async (req, res) => {
 
 const removeFood = async (req, res) => {  
   try {
-    const { id, makeAvailable } = req.body; // Destructuring the request body to get id and makeAvailable
+    const { id, display } = req.body; // Destructuring the request body to get id and makeAvailable
 
     const food = await prisma.foodModel.findUnique({
       where: {
@@ -70,7 +70,7 @@ const removeFood = async (req, res) => {
         id: id,
       },
       data: {
-        display: makeAvailable, // Update the display field based on makeAvailable flag
+        display: display, // Update the display field based on makeAvailable flag
       },
     });
 
