@@ -14,6 +14,7 @@ const addFood = async (req, res) => {
         price: parseInt(req.body.price, 10),
         category: req.body.category,
         image: image_filename,
+        display: true,
       },
     });
 
