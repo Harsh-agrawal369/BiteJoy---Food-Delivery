@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 
-  const API_URL = 'https://bitejoy-backend.onrender.com/';
+  const API_URL = 'https://bitejoy-backend.onrender.com';
 
   return (
     <div>

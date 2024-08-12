@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const StoreContext = createContext(null);
 
-const API_URL = "https://bitejoy-backend.onrender.com/";
+const API_URL = "https://bitejoy-backend.onrender.com";
 
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
