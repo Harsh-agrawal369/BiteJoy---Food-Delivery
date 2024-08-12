@@ -6,25 +6,25 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const placeOrder = async (req, res) => {
   try {
-    const { token, items, totalAmount, address } = req.body;
+    const { token, items, totalAmount, address, userId } = req.body;
 
-    if (!token) {
-      return res
-        .status(401)
-        .json({ success: false, message: " Error here, Unauthorized! Login Again" });
-    }
+    // if (!token) {
+    //   return res
+    //     .status(401)
+    //     .json({ success: false, message: " Error here, Unauthorized! Login Again" });
+    // }
 
-    let decoded;
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
-    } catch (error) {
-      console.error("Token verification error:", error);
-      return res
-        .status(401)
-        .json({ success: false, message: "Unauthorized! Login Again" });
-    }
+    // let decoded;
+    // try {
+    //   decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // } catch (error) {
+    //   console.error("Token verification error:", error);
+    //   return res
+    //     .status(401)
+    //     .json({ success: false, message: "Unauthorized! Login Again" });
+    // }
 
-    const userId = decoded.id;
+    // const userId = decoded.id;
 
     console.log("Order data received:");
 
