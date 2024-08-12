@@ -14,7 +14,7 @@ model foodModel {
   price       Int?
   image       String?
   category    String?
-  display    Boolean    @default(true)
+  display     Boolean    @default(true)
   cartItems   CartItem[]
 }
 
