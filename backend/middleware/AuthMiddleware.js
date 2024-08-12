@@ -7,7 +7,7 @@ const authMiddleware = async (req, res, next) => {
     console.log("Token:", token);
 
     if(!token){
-        return res.status(401).json({success:false ,message: "Unauthorized! Login Again"});
+        return res.status(401).json({success:false ,message: "Error at token not found stage, Unauthorized! Login Again"});
     }
 
     try{
