@@ -58,7 +58,9 @@ const removeFood = async (req, res) => {
       },
     });
 
-    fs.unlink(`uploads/${food.image}`, async (err) => {});
+    fs.unlink(`uploads/${food.image}`, async (err) => {
+      console.log(err);
+    });
 
     await prisma.foodModel.delete({
       where: {
