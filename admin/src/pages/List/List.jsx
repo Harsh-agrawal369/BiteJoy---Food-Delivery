@@ -60,9 +60,9 @@ const List = ({ API_URL }) => {
               <p>${item.price}</p>
               <div className='cursor'>
                 {item.display ? (
-                  <p onClick={() => toggleAvailability(item.id, false)}>Remove</p>
+                  <button onClick={() => toggleAvailability(item.id, false)}>Remove</button>
                 ) : (
-                  <p onClick={() => toggleAvailability(item.id, true)}>Make Available</p>
+                  <button onClick={() => toggleAvailability(item.id, true)}>Make Available</button>
                 )}
               </div>
             </div>
