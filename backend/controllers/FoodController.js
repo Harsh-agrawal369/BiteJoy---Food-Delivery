@@ -50,8 +50,6 @@ const listFood = async (req, res) => {
 
 // Remove Food item
 
-import prisma from "../prisma/index.js";
-
 const removeFood = async (req, res) => {  
   try {
     const { id, makeAvailable } = req.body; // Destructuring the request body to get id and makeAvailable
