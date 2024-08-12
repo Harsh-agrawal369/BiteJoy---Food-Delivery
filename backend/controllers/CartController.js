@@ -3,13 +3,15 @@ import prisma from "../prisma/index.js";
 const addToCart = async (req, res) => {
     try {
         const { userId, ItemId } = req.body;  // ItemId is the foodId
+        console.log("UserId:", userId);
+        console.log("ItemId:", ItemId);
 
         if (!ItemId) {
             return res.status(400).json({ success: false, message: "ItemId (foodId) is required" });
         }
 
         // Find the user
-        const user = await prisma.userModel.findUnique({
+        const user = await prisma.UserModel.findUnique({
             where: { id: userId },
             include: { cart: { include: { items: true } } }
         });
@@ -116,7 +118,7 @@ const getCart = async (req, res) => {
     try {
         const { userId } = req.body;
 
-        const user = await prisma.userModel.findUnique({
+        const user = await prisma.UserModel.findUnique({
             where: { id: userId },
             include: { cart: { include: { items: { include: { food: true } } } } }
         });
