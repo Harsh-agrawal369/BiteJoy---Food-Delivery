@@ -74,7 +74,7 @@ const removeFood = async (req, res) => {
       },
     });
 
-    const actionMessage = makeAvailable ? "Food made available" : "Food removed";
+    const actionMessage = display ? "Food made available" : "Food removed";
     res.json({ success: true, message: actionMessage });
     
   } catch (err) {
