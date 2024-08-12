@@ -143,11 +143,9 @@ const StoreContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    if(!token){
-      setName("");
-    }
-    // console.log(cartItems);
-  }, [cartItems]);
+    // Optional: handle side effects or additional logic when cartItems or token change
+    console.log("Cart items or token changed", { cartItems, token });
+  }, [cartItems, token]);
 
   const contextValue = {
     food_list,
