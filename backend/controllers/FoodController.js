@@ -50,33 +50,38 @@ const listFood = async (req, res) => {
 
 // Remove Food item
 
+import prisma from "../prisma/index.js";
+
 const removeFood = async (req, res) => {  
   try {
+    const { id, makeAvailable } = req.body; // Destructuring the request body to get id and makeAvailable
+
     const food = await prisma.foodModel.findUnique({
       where: {
-        id: req.body.id,
+        id: id,
       },
     });
 
-    fs.unlink(`uploads/${food.image}`, async (err) => {
-      console.log(err);
-    });
+    if (!food) {
+      return res.json({ success: false, message: "Food item not found" });
+    }
 
-    await prisma.foodModel.delete({
+    await prisma.foodModel.update({
       where: {
-        id: req.body.id,
+        id: id,
+      },
+      data: {
+        display: makeAvailable, // Update the display field based on makeAvailable flag
       },
     });
 
-    res.json({ success: true, message: "Food Removed" });
+    const actionMessage = makeAvailable ? "Food made available" : "Food removed";
+    res.json({ success: true, message: actionMessage });
     
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
     res.json({ success: false, message: "Internal Server Error" });
   }
-
-}
-
+};
 
 export { addFood, listFood, removeFood };

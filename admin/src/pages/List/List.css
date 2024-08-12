@@ -17,6 +17,11 @@
     border-radius: 5%;
 }
 
+.greyed-out {
+    opacity: 0.5;
+    /* pointer-events: none;  */
+}  
+
 
 @media (max-width: 600px) {
     .list-table-format{
