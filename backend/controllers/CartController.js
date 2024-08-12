@@ -21,7 +21,7 @@ const addToCart = async (req, res) => {
         // Find or create cart for the user
         let cart = user.cart[0]; // Assuming a user has only one cart
         if (!cart) {
-            cart = await prisma.cart.create({
+            cart = await prisma.Cart.create({
                 data: {
                     userId: userId
                 },
@@ -29,24 +29,24 @@ const addToCart = async (req, res) => {
             });
 
             // Re-fetch the cart with items to include the new empty cart
-            cart = await prisma.cart.findUnique({
+            cart = await prisma.Cart.findUnique({
                 where: { id: cart.id },
                 include: { items: true }
             });
         }
 
         // Check if the item is already in the cart
-        const existingCartItem = cart.items.find(item => item.foodId === ItemId);
+        const existingCartItem = Cart.items.find(item => item.foodId === ItemId);
 
         if (existingCartItem) {
             // If the item exists, update its quantity
-            await prisma.cartItem.update({
+            await prisma.CartItem.update({
                 where: { id: existingCartItem.id },
                 data: { quantity: existingCartItem.quantity + 1 }
             });
         } else {
             // If the item does not exist, create a new cart item
-            await prisma.cartItem.create({
+            await prisma.CartItem.create({
                 data: {
                     cartId: cart.id,
                     foodId: ItemId,
@@ -83,7 +83,7 @@ const removeFromCart = async (req, res) => {
         }
 
         // Find the cart item
-        let cartItem = await prisma.cartItem.findFirst({
+        let cartItem = await prisma.CartItem.findFirst({
             where: { cartId: cart.id, foodId: ItemId }
         });
 
@@ -93,13 +93,13 @@ const removeFromCart = async (req, res) => {
 
         if (cartItem.quantity > 1) {
             // Decrease the quantity
-            await prisma.cartItem.update({
+            await prisma.CartItem.update({
                 where: { id: cartItem.id },
                 data: { quantity: cartItem.quantity - 1 }
             });
         } else {
             // Remove the item from the cart
-            await prisma.cartItem.delete({
+            await prisma.CartItem.delete({
                 where: { id: cartItem.id }
             });
         }
