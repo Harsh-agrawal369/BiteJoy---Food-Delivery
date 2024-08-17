@@ -83,11 +83,12 @@ const registerUser = async (req, res) => {
         }
 
         // Validate password using Regex
+        console.log(password);
         if (
-        !password.match(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8}$/)
-        ) {
-        return res.json({ success: false, message: "Password is weak" });
-        }
+            !password.match(/^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/)
+            ) {
+                return res.json({ success: false, message: "Password is weak" });
+            }
 
         // Hashing password
         const salt = await bcrypt.genSalt(10); // Using corrected bcrypt
