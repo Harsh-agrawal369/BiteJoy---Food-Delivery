@@ -8,9 +8,11 @@ import axios from "axios";
 const LoginPopup = ({ setShowLogin }) => {
   const [loginState, setLoginState] = useState("Sign Up");
   const [error, setError] = useState("");
+  const [passwordvisible, setPasswordVisible] = useState(false);
 
   const { API_URL } = useContext(StoreContext);
-  const { token, setToken , name, setName, loadCartData } = useContext(StoreContext);
+  const { token, setToken, name, setName, loadCartData } =
+    useContext(StoreContext);
 
   const [data, setData] = useState({
     name: "",
@@ -53,12 +55,26 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordvisible);
+    const passwordInput = document.querySelector("input[name='password']");
+    if (passwordvisible) {
+      passwordInput.type = "password";
+    } else {
+      passwordInput.type = "text";
+    }
+  };
+
   return (
     <div className="login-popup">
       <form onSubmit={onLogin} className="login-popup-container">
         <div className="login-popup-title">
           <h1>{loginState}</h1>
-          <img onClick={() => setShowLogin(false)} src={assets.cross_icon} alt="Close" />
+          <img
+            onClick={() => setShowLogin(false)}
+            src={assets.cross_icon}
+            alt="Close"
+          />
         </div>
         <div className="login-popup-input">
           {error && <p className="error">{error}</p>}
@@ -80,14 +96,27 @@ const LoginPopup = ({ setShowLogin }) => {
             placeholder="Enter Your Email"
             required
           />
-          <input
-            name="password"
-            type="password"
-            onChange={onChangeHandler}
-            value={data.password}
-            placeholder="Enter Password"
-            required
-          />
+          <div className="password-input-container">
+            <input
+              name="password"
+              type="password"
+              onChange={onChangeHandler}
+              value={data.password}
+              placeholder="Enter Password"
+              required
+            />
+            {!passwordvisible ? (
+              <i
+                className="fa-regular fa-eye password-toggle-icon"
+                onClick={() => togglePasswordVisibility()}
+              ></i>
+            ) : (
+              <i
+                className="fa-regular fa-eye-slash password-toggle-icon"
+                onClick={() => togglePasswordVisibility()}
+              ></i>
+            )}
+          </div>
           {loginState === "Sign Up" && (
             <>
               <input
