@@ -8,7 +8,7 @@ import axios from "axios";
 const LoginPopup = ({ setShowLogin }) => {
   const [loginState, setLoginState] = useState("Sign Up");
   const [error, setError] = useState("");
-  const [passwordvisible, setPasswordVisible] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const { API_URL } = useContext(StoreContext);
   const { token, setToken, name, setName, loadCartData } =
@@ -55,10 +55,10 @@ const LoginPopup = ({ setShowLogin }) => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordvisible);
-    const passwordInput = document.querySelector("input[name='password']");
-    if (passwordvisible) {
+  const togglePasswordVisibility = (name) => {
+    setPasswordVisible(!passwordVisible);
+    const passwordInput = document.querySelector(`input[name="${name}"]`);
+    if (passwordVisible) {
       passwordInput.type = "password";
     } else {
       passwordInput.type = "text";
@@ -105,15 +105,15 @@ const LoginPopup = ({ setShowLogin }) => {
               placeholder="Enter Password"
               required
             />
-            {!passwordvisible ? (
+            {!passwordVisible ? (
               <i
-                className="fa-regular fa-eye password-toggle-icon"
-                onClick={() => togglePasswordVisibility()}
+                className="fa-regular fa-eye-slash password-toggle-icon"
+                onClick={() => togglePasswordVisibility("password")}
               ></i>
             ) : (
               <i
-                className="fa-regular fa-eye-slash password-toggle-icon"
-                onClick={() => togglePasswordVisibility()}
+                className="fa-regular fa-eye password-toggle-icon"
+                onClick={() => togglePasswordVisibility("password")}
               ></i>
             )}
           </div>
